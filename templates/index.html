@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Official SCM Honours Track Marks Portal. Check your examination marks securely by entering your seat number.">
+  <title>SCM Honours Track - Marks Portal</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <!-- Header -->
+    <header class="portal-header">
+      <div class="header-content">
+        <div class="brand-container">
+          <div class="academic-badge" aria-hidden="true">
+            <!-- Academic Graduation Cap SVG Icon -->
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="track-tag">SH2026</span>
+            <h1 class="portal-title">SCM Honours Track</h1>
+            <p class="portal-subtitle">Marks Portal</p>
+          </div>
+        </div>
+        <nav class="portal-nav">
+          <!--<a href="{{ url_for('admin_info') }}" class="nav-link" title="Administrator Information & CSV Workflow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            Admin Guide
+          </a>-->
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+      <!-- Search Card (Initial View) -->
+      <section class="portal-card" id="search-section" aria-labelledby="search-heading">
+        <div class="card-header">
+          <div class="icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <h2 id="search-heading" class="card-title">Check Your Marks</h2>
+          <p class="card-description">Enter your seat number to view your marks.</p>
+        </div>
+
+        <form id="marks-form" class="search-form" novalidate>
+          <div class="form-group">
+            <label for="seat-number-input" class="form-label">Seat Number</label>
+            <div class="input-wrapper">
+              <input type="text" id="seat-number-input" name="seat_number" class="form-input" required
+                autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="seat-hint">
+              <button type="button" id="clear-input-btn" class="clear-btn" aria-label="Clear seat number"
+                style="display: none;">
+                &times;
+              </button>
+            </div>
+            <span id="seat-hint" class="field-hint">Seat number as printed on your examination admit card.</span>
+          </div>
+
+          <div class="button-group">
+            <button type="submit" id="submit-btn" class="btn btn-primary">
+              <span class="btn-text">View Marks</span>
+              <span class="spinner" aria-hidden="true" style="display: none;"></span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Live Announcements for Screen Readers -->
+        <div id="live-announcer" class="sr-only" role="status" aria-live="polite"></div>
+
+        <!-- Error Alert Banner -->
+        <div id="error-banner" class="alert-banner alert-error" style="display: none;" role="alert">
+          <div class="alert-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <div class="alert-content">
+            <strong id="error-title" class="alert-title">Seat Number Not Found</strong>
+            <p id="error-message" class="alert-desc">Please check your seat number and try again.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Card (Hidden Initially) -->
+      <section class="portal-card marks-result-card" id="results-section" style="display: none;"
+        aria-labelledby="results-heading">
+        <div class="card-header result-header">
+
+          <div class="seat-pill">
+            <span class="seat-label">Seat Number:</span>
+            <span id="display-seat-number" class="seat-value">SCM001</span>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="marks-table" id="marks-table">
+            <thead>
+              <tr>
+                <th scope="col">Subject</th>
+                <th scope="col" class="text-right">Marks</th>
+              </tr>
+            </thead>
+            <tbody id="marks-table-body">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Summary: Total Marks and Percentage (if available) -->
+        <div id="marks-summary" class="marks-summary" style="display: none;">
+          <div class="summary-card" id="total-card">
+            <span class="summary-label">Total Marks</span>
+            <span id="display-total-marks" class="summary-value">0</span>
+          </div>
+          <div class="summary-card" id="percentage-card">
+            <span class="summary-label">Percentage</span>
+            <span id="display-percentage" class="summary-value">0%</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="portal-footer print-hidden">
+      <div class="footer-content">
+        <p class="footer-text">
+          <strong>SCM Honours Track (MSE Marks)</strong>
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript Application Logic -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SCM Honours Track - Administrator Guide for Marks Data Management">
+  <title>Admin Information - SCM Honours Track</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Header -->
+    <header class="portal-header">
+      <div class="header-content">
+        <div class="brand-container">
+          <div class="academic-badge" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="track-tag">Administration</span>
+            <h1 class="portal-title">SCM Honours Track</h1>
+            <p class="portal-subtitle">Marks Data Management</p>
+          </div>
+        </div>
+        <nav class="portal-nav">
+          <a href="{{ url_for('index') }}" class="nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Student Portal
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+      <section class="portal-card admin-guide-card">
+        <div class="card-header">
+          <div class="icon-circle admin-icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <h2 class="card-title">Marks Data Management</h2>
+          <p class="card-description">
+            The marks displayed on this portal are loaded from the <code>marks.csv</code> file bundled inside the application repository.
+          </p>
+        </div>
+
+        <div class="admin-notice">
+          <strong>Zero Database &amp; Privacy Architecture</strong>
+          <p>
+            This application intentionally does not use external databases or web-based file uploads. This guarantees zero maintenance overhead, zero database costs, and zero risk of unauthorized database modification.
+          </p>
+        </div>
+
+        <div class="admin-steps-container">
+          <h3 class="steps-heading">Standard Marks Update Procedure</h3>
+          <ol class="admin-steps-list">
+            <li>
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>Prepare the New Marks CSV</strong>
+                <p>Ensure the CSV contains a <code>Seat_Number</code> column. Subject names are automatically detected from the remaining column headers.</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Replace the File</strong>
+                <p>Replace <code>data/marks.csv</code> in the project directory with your verified marks file.</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Verify Locally</strong>
+                <p>Run <code>python app.py</code> and search for sample seat numbers to verify formatting and score calculations.</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>Deploy to Vercel</strong>
+                <p>Commit the updated CSV to Git and push to your repository (or deploy via <code>vercel --prod</code>). Vercel automatically deploys the updated marks.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="csv-example-box">
+          <span class="example-label">Required CSV Header Structure Example:</span>
+          <pre><code>Seat_Number,Database Systems,Python,Data Analytics,SCM Honours
+SCM001,85,91,88,94
+SCM002,78,82,75,89</code></pre>
+        </div>
+
+        <div class="button-group">
+          <a href="{{ url_for('index') }}" class="btn btn-secondary">
+            Back to Student Portal
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="portal-footer">
+      <div class="footer-content">
+        <p class="footer-text">
+          <strong>SCM Honours Track</strong> &bull; Administrative Operations
+        </p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+# Python byte-code / cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Environment variables & local test files
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel/
+
+# Note: data/marks.csv is intentionally TRACKED in git as the application data source!
+!data/marks.csv
